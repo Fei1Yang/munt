@@ -31,6 +31,7 @@ private:
 	bool stopped;
 	bool sliderUpdating;
 	bool paused;
+	bool repeat;
 	const QListWidgetItem *currentItem;
 
 	void updateCurrentItem();
@@ -52,6 +53,7 @@ private slots:
 	void on_fastForwardButton_released();
 	void on_fastFastForwardButton_pressed();
 	void on_fastFastForwardButton_released();
+	void on_repeatCheckBox_stateChanged(int state);
 	void on_tempoSpinBox_valueChanged(int newValue);
 	void on_positionSlider_valueChanged();
 	void on_positionSlider_sliderReleased();

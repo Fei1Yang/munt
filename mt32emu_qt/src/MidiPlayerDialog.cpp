@@ -23,6 +23,7 @@ MidiPlayerDialog::MidiPlayerDialog(Master *master, QWidget *parent) : QDialog(pa
 	ui->setupUi(this);
 	standardTitle = windowTitle();
 	ui->playButton->setEnabled(false);
+	ui->repeatCheckBox->setCheckState(Qt::Unchecked);
 	connect(&smfDriver, SIGNAL(playbackFinished(bool)), SLOT(handlePlaybackFinished(bool)));
 	connect(&smfDriver, SIGNAL(playbackTimeChanged(quint64, quint32)), SLOT(handlePlaybackTimeChanged(quint64, quint32)));
 	connect(&smfDriver, SIGNAL(tempoUpdated(quint32)), SLOT(handleTempoSet(quint32)));
@@ -189,6 +190,14 @@ void MidiPlayerDialog::on_fastFastForwardButton_released() {
 	smfDriver.setFastForwardingFactor(0);
 }
 
+void MidiPlayerDialog::on_repeatCheckBox_stateChanged(int state) {
+	if (state == Qt::Unchecked) {
+		repeat = false;
+	} else {
+		repeat = true;
+	}
+}
+
 void MidiPlayerDialog::on_tempoSpinBox_valueChanged(int newValue) {
 	if (stopped) return;
 	smfDriver.setBPM(newValue);
@@ -217,11 +226,15 @@ void MidiPlayerDialog::handlePlaybackFinished(bool successful) {
 		if (rowPlaying++ == -1 || ui->playList->count() <= rowPlaying) {
 			currentItem = NULL;
 			if (ui->playList->count() > 0) {
-				ui->playList->setCurrentRow(0);
+				rowPlaying = 0;
+				ui->playList->setCurrentRow(rowPlaying);
+			} 
+			
+			if (ui->playList->count() == 0 || !repeat) {
+				stopped = true;
+				updateCurrentItem();
+				return;
 			}
-			stopped = true;
-			updateCurrentItem();
-			return;
 		}
 		ui->playList->setCurrentRow(rowPlaying);
 		currentItem = ui->playList->currentItem();

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>508</width>
+    <width>588</width>
     <height>282</height>
    </rect>
   </property>
@@ -150,6 +150,22 @@
         <widget class="QPushButton" name="fastFastForwardButton">
          <property name="text">
           <string>FFForward</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="repeatCheckBox">
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Repeat</string>
          </property>
         </widget>
        </item>
